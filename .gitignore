@@ -1,0 +1,12 @@
+node_modules/
+dist/
+config/siteConfig.json
+menu.json
+functions/
+layers/
+.env
+yarn-error.log
+packaged.yml
+keys/*
+!keys/.gitkeep
+build/
