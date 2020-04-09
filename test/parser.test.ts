@@ -122,8 +122,6 @@ describe('parser test', () => {
       {input: 'D;JNE', dest: null, comp: 'D', jump: 'JNE'},
       {input: '1', dest: null, comp: '1', jump: null},
       {input: 'D=A-M', dest: 'D', comp: 'A-M', jump: null},
-      {input: 'A=A+i_a', dest: 'A', comp: 'A+i_a', jump: null},
-      {input: 'MD=A+sum', dest: 'MD', comp: 'A+sum', jump: null},
       {input: 'MD=A|D', dest: 'MD', comp: 'A|D', jump: null},
       {input: 'AMD=A&D;JMP', dest: 'AMD', comp: 'A&D', jump: 'JMP'},
     ]

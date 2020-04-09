@@ -82,7 +82,7 @@ export class Parser {
       return new LCommand(l_match[1])
     }
 
-    const c_match = current.match(/(?:(A?M?D?)=)?([a-zA-Z0-9+\-&|_]+)(?:;([a-zA-Z]+))?/)
+    const c_match = current.match(/(?:(A?M?D?)=)?([AMD01+\-&|]+)(?:;([a-zA-Z]+))?/)
     if (c_match) {
       return new CCommand(
         c_match[1] || null,
