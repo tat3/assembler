@@ -42,4 +42,11 @@ describe('assembler module test', () => {
     expect(assembler.decimal2bin('0')).to.equal('0')
     expect(assembler.decimal2bin('10')).to.equal('1010')
   })
+
+  it('build max assembly file', () => {
+    const code = fs.readFileSync('test/data/max/Max.asm', { encoding: 'utf8' })
+    const bin = fs.readFileSync('test/data/max/Max.hack', { encoding: 'utf8' })
+    const assembler = new Assembler(code)
+    expect(assembler.build()).to.equal(bin)
+  })
 })

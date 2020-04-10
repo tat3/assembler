@@ -1,12 +1,15 @@
-import { Parser, A_COMMAND, C_COMMAND } from './parser'
+import { Parser, A_COMMAND, L_COMMAND, C_COMMAND } from './parser'
 import { SymbolTable } from './symboltable'
 import { Code } from './code'
+import { isNumber } from './util'
 
 export class Assembler {
   constructor(public code: string) {}
 
   build = () => {
     const parser = new Parser(this.code)
+    const table = new SymbolTable()
+    this.setLabelSymbol(table)
     const instructions = [] as string[]
     while (true) {
       try {
@@ -16,7 +19,7 @@ export class Assembler {
       }
       const type = parser.commandType()
       if (type === A_COMMAND) {
-        instructions.push(this.ACommandInstruction(parser.symbol()))
+        instructions.push(this.ACommandInstruction(parser.symbol(), table))
       } else if (type === C_COMMAND) {
         instructions.push(this.CCommandInstruction(parser.comp(), parser.dest(), parser.jump()))
       }
@@ -24,8 +27,27 @@ export class Assembler {
     return instructions.join('\n') + '\n'
   }
 
-  ACommandInstruction = (symbol: string) => {
-    const s = this.decimal2bin(symbol)
+  setLabelSymbol = (table: SymbolTable) => {
+    const parser = new Parser(this.code)
+    let currentAddress = 0
+    while (true) {
+      try {
+        parser.advance()
+      } catch (e) {
+        break
+      }
+      const type = parser.commandType()
+      if (type === A_COMMAND || type === C_COMMAND) {
+        currentAddress++
+      } else if (type === L_COMMAND) {
+        table.addEntry(parser.symbol(), currentAddress)
+      }
+    }
+  }
+
+  ACommandInstruction = (symbol: string, table: SymbolTable) => {
+    const address = isNumber(symbol) ? symbol : String(table.getAddress(symbol))
+    const s = this.decimal2bin(address)
     if (s.length > 15) {
       throw new Error('symbol address is too large')
     }

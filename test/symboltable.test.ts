@@ -1,6 +1,6 @@
 import chai from 'chai'
 
-import { SymbolTable } from '../src/symboltable'
+import { SymbolTable, initialSymbolTable } from '../src/symboltable'
 
 const expect = chai.expect
 
@@ -8,13 +8,16 @@ describe('symbol table test', () => {
   it('can be initiated', () => {
     const symbol = new SymbolTable()
     expect(symbol).not.to.be.null
-    expect(symbol.symbolTable).to.deep.equal({})
+    expect(symbol.symbolTable).to.deep.equal(initialSymbolTable)
   })
 
   it('add symbol with addEntry', () => {
     const symbol = new SymbolTable()
     symbol.addEntry('i', 1024)
-    expect(symbol.symbolTable).to.deep.equal({i: 1024})
+    expect(symbol.symbolTable).to.deep.equal({
+      ...initialSymbolTable,
+      i: 1024
+    })
     expect(() => symbol.addEntry('i', 1000)).to.throw('symbol "i" is already contained in address 1024')
   })
 
