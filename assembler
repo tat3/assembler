@@ -1,0 +1,9 @@
+if [ $# -ne 1 ]; then
+  cat << EOS
+assembler: invalid number of arguments
+Usage: ./assembler [ASM_PATH]
+EOS
+  exit 1
+fi
+
+node build/src/index.js $1
