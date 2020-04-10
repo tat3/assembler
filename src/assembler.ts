@@ -11,6 +11,7 @@ export class Assembler {
     const table = new SymbolTable()
     this.setLabelSymbol(table)
     const instructions = [] as string[]
+    let variableAddress = 16
     while (true) {
       try {
         parser.advance()
@@ -19,7 +20,12 @@ export class Assembler {
       }
       const type = parser.commandType()
       if (type === A_COMMAND) {
-        instructions.push(this.ACommandInstruction(parser.symbol(), table))
+        const symbol = parser.symbol()
+        if (!isNumber(symbol) && !table.contains(symbol)) {
+          table.addEntry(symbol, variableAddress)
+          variableAddress++
+        }
+        instructions.push(this.ACommandInstruction(symbol, table))
       } else if (type === C_COMMAND) {
         instructions.push(this.CCommandInstruction(parser.comp(), parser.dest(), parser.jump()))
       }

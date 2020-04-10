@@ -72,17 +72,17 @@ export class Parser {
     }
     const current = this.skipSpace(this.current)
 
-    const a_match = current.match(/@([a-zA-Z0-9_]+).*/)
+    const a_match = current.match(/@([a-zA-Z0-9_\.$:]+).*/)
     if (a_match) {
       return new ACommand(a_match[1])
     }
 
-    const l_match = current.match(/\(([a-zA-Z0-9_]+)\)/)
+    const l_match = current.match(/\(([a-zA-Z0-9_\.$:]+)\)/)
     if (l_match) {
       return new LCommand(l_match[1])
     }
 
-    const c_match = current.match(/(?:(A?M?D?)=)?([AMD01+\-&|]+)(?:;([a-zA-Z]+))?/)
+    const c_match = current.match(/(?:(A?M?D?)=)?([AMD01+\-&|!]+)(?:;([a-zA-Z]+))?/)
     if (c_match) {
       return new CCommand(
         c_match[1] || null,

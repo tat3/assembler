@@ -49,4 +49,18 @@ describe('assembler module test', () => {
     const assembler = new Assembler(code)
     expect(assembler.build()).to.equal(bin)
   })
+
+  it('build rect assembly file', () => {
+    const code = fs.readFileSync('test/data/rect/Rect.asm', { encoding: 'utf8' })
+    const bin = fs.readFileSync('test/data/rect/Rect.hack', { encoding: 'utf8' })
+    const assembler = new Assembler(code)
+    expect(assembler.build()).to.equal(bin)
+  })
+
+  it('build pong assembly file', () => {
+    const code = fs.readFileSync('test/data/pong/Pong.asm', { encoding: 'utf8' })
+    const bin = fs.readFileSync('test/data/pong/Pong.hack', { encoding: 'utf8' })
+    const assembler = new Assembler(code)
+    expect(assembler.build()).to.equal(bin)
+  })
 })
